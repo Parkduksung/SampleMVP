@@ -1,4 +1,6 @@
 package com.example.samplemvp.data.source.remote
 
-object TasksRemoteDataSource {
+import com.example.samplemvp.data.source.TasksDataSource
+
+object TasksRemoteDataSource : TasksDataSource{
 }
