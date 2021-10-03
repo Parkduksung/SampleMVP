@@ -58,6 +58,13 @@ class TasksActivity : AppCompatActivity() {
         }
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState.apply {
+            putSerializable(CURRENT_FILTERING_KEY, tasksPresenter.currentFiltering)
+        })
+    }
+
+
     private fun setupDrawerContent(navigationView: NavigationView) {
         navigationView.setNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
