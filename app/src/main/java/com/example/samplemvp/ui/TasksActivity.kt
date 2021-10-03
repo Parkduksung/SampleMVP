@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
 import com.example.samplemvp.R
 import com.example.samplemvp.data.source.TasksRepository
+import com.example.samplemvp.di.Injection
 import com.example.samplemvp.util.setupActionBar
 import com.google.android.material.navigation.NavigationView
 
@@ -23,6 +24,11 @@ class TasksActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.tasks_act)
 
+
+        val strings = listOf("abc", "def")
+
+        strings.asSequence()
+
         setupActionBar(R.id.toolbar) {
             setHomeAsUpIndicator(R.drawable.ic_menu)
             setDisplayHomeAsUpEnabled(true)
@@ -36,7 +42,10 @@ class TasksActivity : AppCompatActivity() {
 
 
 
-        tasksPresenter = TasksPresenter(TasksRepository(), TasksFragment()).apply {
+        tasksPresenter = TasksPresenter(
+            Injection.provideTasksRepository(context = applicationContext),
+            TasksFragment()
+        ).apply {
             if (savedInstanceState != null) {
                 currentFiltering =
                     savedInstanceState.getSerializable(CURRENT_FILTERING_KEY) as TasksFilterType
