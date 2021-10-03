@@ -6,4 +6,9 @@ class TasksFragment : Fragment(), TasksContract.View {
 
     override lateinit var presenter: TasksContract.Presenter
 
+    companion object {
+        fun newInstance(): TasksFragment {
+            return TasksFragment()
+        }
+    }
 }

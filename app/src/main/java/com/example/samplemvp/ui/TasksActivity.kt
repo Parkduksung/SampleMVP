@@ -8,6 +8,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import com.example.samplemvp.R
 import com.example.samplemvp.data.source.TasksRepository
 import com.example.samplemvp.di.Injection
+import com.example.samplemvp.util.replaceFragmentInActivity
 import com.example.samplemvp.util.setupActionBar
 import com.google.android.material.navigation.NavigationView
 
@@ -40,11 +41,15 @@ class TasksActivity : AppCompatActivity() {
 
         setupDrawerContent(findViewById(R.id.nav_view))
 
-
+        val tasksFragment =
+            supportFragmentManager.findFragmentById(R.id.contentFrame) as TasksFragment?
+                ?: TasksFragment.newInstance().also {
+                    replaceFragmentInActivity(it, R.id.contentFrame)
+                }
 
         tasksPresenter = TasksPresenter(
             Injection.provideTasksRepository(context = applicationContext),
-            TasksFragment()
+            tasksFragment
         ).apply {
             if (savedInstanceState != null) {
                 currentFiltering =
