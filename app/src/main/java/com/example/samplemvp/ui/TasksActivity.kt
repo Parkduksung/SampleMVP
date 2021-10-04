@@ -1,12 +1,12 @@
 package com.example.samplemvp.ui
 
-import android.annotation.SuppressLint
 import android.os.Bundle
+import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.example.samplemvp.R
-import com.example.samplemvp.data.source.TasksRepository
 import com.example.samplemvp.di.Injection
 import com.example.samplemvp.util.replaceFragmentInActivity
 import com.example.samplemvp.util.setupActionBar
@@ -20,15 +20,10 @@ class TasksActivity : AppCompatActivity() {
 
     private lateinit var tasksPresenter: TasksPresenter
 
-    @SuppressLint("RestrictedApi")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.tasks_act)
 
-
-        val strings = listOf("abc", "def")
-
-        strings.asSequence()
 
         setupActionBar(R.id.toolbar) {
             setHomeAsUpIndicator(R.drawable.ic_menu)
@@ -42,7 +37,7 @@ class TasksActivity : AppCompatActivity() {
         setupDrawerContent(findViewById(R.id.nav_view))
 
         val tasksFragment =
-            supportFragmentManager.findFragmentById(R.id.contentFrame) as TasksFragment?
+            (supportFragmentManager.findFragmentById(R.id.contentFrame) as TasksFragment?)
                 ?: TasksFragment.newInstance().also {
                     replaceFragmentInActivity(it, R.id.contentFrame)
                 }
@@ -64,6 +59,15 @@ class TasksActivity : AppCompatActivity() {
         })
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == android.R.id.home) {
+            //NavigationView 의 layout_gravity 랑 방향이 같아야 한다.
+            drawerLayout.openDrawer(GravityCompat.START)
+            return true
+        }
+
+        return super.onOptionsItemSelected(item)
+    }
 
     private fun setupDrawerContent(navigationView: NavigationView) {
         navigationView.setNavigationItemSelectedListener { menuItem ->
